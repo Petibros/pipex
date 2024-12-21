@@ -1,0 +1,21 @@
+{
+	int		i;
+	char	*path;
+
+    while (i < args->n_cmd)
+    {
+        args->cmd = ft_split(argv[i], ' ');
+        if (!args->cmd)
+            return (0);
+        if (args->cmd[0][0] == '/')
+            path = ft_strdup(args->cmd[0]);
+        else
+            path = get_path(args, envp);
+        if (!path)
+            return (0);
+        execve(path, args->cmd, envp);
+        free(path);
+        i++;
+    }
+    return (1);
+}
