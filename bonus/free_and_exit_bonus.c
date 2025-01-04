@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_and_exit.c                                    :+:      :+:    :+:   */
+/*   free_and_exit_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sacgarci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 12:48:03 by sacgarci          #+#    #+#             */
-/*   Updated: 2024/12/01 10:02:45 by sacgarci         ###   ########.fr       */
+/*   Updated: 2025/01/04 13:39:48 by sacgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ void	ft_free(t_args *args, int close_fd)
 		close(args->fd_in);
 		close(args->fd_out);
 	}
-	if (close_fd != 2 && args->limiter)
-		free(args->limiter);
 	if (close_fd != 2)
 		free(args);
 	args = NULL;

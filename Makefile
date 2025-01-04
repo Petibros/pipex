@@ -14,14 +14,14 @@ O_LIBFT = $(C_LIBFT:.c=.o)
 
 O_BONUS = $(C_BONUS:.c=.o)
 
-CFLAGS += -Wall -Wextra -Werror
+CFLAGS += -Wall -Wextra -Werror -g
 
 all : $(NAME)
 
-bonus : $(O_MANDA) $(O_LIBFT)
+$(NAME) : $(O_MANDA) $(O_LIBFT)
 		cc $(CFLAGS) $(O_MANDA) $(O_LIBFT) -o $(NAME)
 
-$(NAME) : fclean $(O_BONUS) $(O_LIBFT)
+bonus : fclean $(O_BONUS) $(O_LIBFT)
 		cc $(CFLAGS) $(O_BONUS) $(O_LIBFT) -o $(NAME)
 
 clean :

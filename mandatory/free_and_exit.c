@@ -6,7 +6,7 @@
 /*   By: sacgarci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 12:48:03 by sacgarci          #+#    #+#             */
-/*   Updated: 2024/12/01 10:02:45 by sacgarci         ###   ########.fr       */
+/*   Updated: 2025/01/05 00:00:02 by sacgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,15 @@ void	ft_free(t_args *args, int close_fd)
 		close(args->fd_in);
 		close(args->fd_out);
 	}
-	if (close_fd != 2 && args->limiter)
-		free(args->limiter);
-	if (close_fd != 2)
+	if (args)
 		free(args);
 	args = NULL;
 }
 
-void	exit_error(t_args *args, int close_fd, char *msg)
+void	exit_error(t_args *args, int close_fd, char *msg, int status)
 {
 	ft_free(args, close_fd);
-	perror(msg);
-	exit(1);
+	if (msg)
+		perror(msg);
+	exit(status);
 }

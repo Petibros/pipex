@@ -6,7 +6,7 @@
 /*   By: sacgarci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 01:06:25 by sacgarci          #+#    #+#             */
-/*   Updated: 2024/11/09 17:11:28 by sacgarci         ###   ########.fr       */
+/*   Updated: 2025/01/04 17:09:33 by sacgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,4 +118,3 @@ char	*get_next_line(int fd)
 	buffer = NULL;
 	return (NULL);
 }
-
