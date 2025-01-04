@@ -24,7 +24,7 @@ typedef struct s_list
 
 int		ft_atoi(const char *nptr);
 void	ft_bzero(void *s, size_t n);
-void	*ft_calloc(size_t nmemb, size_t size);
+void	*ft_calloc_libft(size_t nmemb, size_t size);
 char	*ft_itoa(int n);
 int		ft_isalnum(int c);
 int		ft_isalpha(int c);
@@ -41,10 +41,10 @@ void	ft_putendl_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_putstr_fd(char *s, int fd);
 char	**ft_split(char const *s, char c);
-char	*ft_strchr(const char *s, int c);
+char	*ft_strchr_libft(const char *s, int c);
 char	*ft_strdup(const char *s);
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
-char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin_libft(char const *s1, char const *s2);
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 size_t	ft_strlen(const char *s);

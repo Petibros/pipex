@@ -102,7 +102,7 @@ char	**ft_split(char const *s, char c)
 	if (!array)
 		return (NULL);
 	count = fill_array(&s[i], c, array, count);
-	if (!array[count] && count >= 0)
+	if (count >= 0 && !array[count])
 	{
 		ft_free(array, count);
 		return (NULL);

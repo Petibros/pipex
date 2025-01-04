@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex.h"
+#include "pipex_bonus.h"
 
 int	init_fd(char **argv, int argc, t_args *args)
 {
@@ -24,7 +24,7 @@ int	init_fd(char **argv, int argc, t_args *args)
 	if (fd_in == -1)
 		return (0);
 	args->fd_in = fd_in;
-	fd_out = open(argv[argc - 1], O_RDWR | O_CREAT, S_IRWXU);
+	fd_out = open(argv[argc - 1], O_RDWR | O_TRUNC | O_CREAT, S_IRWXU);
 	if (fd_out == -1)
 	{
 		close(fd_in);
@@ -34,7 +34,7 @@ int	init_fd(char **argv, int argc, t_args *args)
 	return (1);
 }
 
-char	*get_path(t_args *args, char **envp)
+char	*get_path(char **envp, char **cmd)
 {
 	int		i;
 	char	**paths;
@@ -46,21 +46,19 @@ char	*get_path(t_args *args, char **envp)
 		i++;
 	paths = ft_split(&envp[i][5], ':');
 	i = 0;
-	to_join = ft_strjoin("/", args->cmd[0]);
+	to_join = ft_strjoin("/", cmd[0]);
 	while (paths && paths[i])
 	{
 		path = ft_strjoin(paths[i], to_join);
-		if (!path)
-			return (NULL);
-		if (access(path, F_OK) == 0)
+		if (!path || access(path, F_OK) == 0)
 			break ;
 		free(path);
 		i++;
 	}
 	free(to_join);
+	if (!paths || !paths[i] || !path)
+		path = NULL;
 	free_char_array(paths);
-	if (!paths || !paths[i])
-		return (NULL);
 	return (path);
 }
 

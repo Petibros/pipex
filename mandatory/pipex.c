@@ -12,47 +12,61 @@
 
 #include "pipex.h"
 
-#include <stdio.h>
+static int	parent(t_args *args, char **argv, char **envp)
+{
+	char	*path;
+	char	**cmd;
+
+	close(args->pipefd[0]);
+	dup2(args->fd_in, 0);
+	dup2(args->pipefd[1], 1);
+	cmd = ft_split(argv[0], ' ');
+	if (ft_strchr(cmd[0], '/'))
+		path = ft_strdup(cmd[0]);
+	else
+		path = get_path(envp, cmd);
+	ft_free(args, 0);
+	if (path)
+		execve(path, cmd, envp);
+	free_char_array(cmd);
+	return (0);
+}
+
+static int	child(t_args *args, char **argv, char **envp)
+{
+	char	*path;
+	char	**cmd;
+
+	close(args->pipefd[1]);
+	dup2(args->pipefd[0], 0);
+	dup2(args->fd_out, 1);
+	cmd = ft_split(argv[1], ' ');
+	if (ft_strchr(cmd[0], '/'))
+		path = ft_strdup(cmd[0]);
+	else
+		path = get_path(envp, cmd);
+	ft_free(args, 0);
+	if (path)
+		execve(path, cmd, envp);
+	free_char_array(cmd);
+	return (0);
+}
+
 static int	pipex(t_args *args, char **argv, char **envp)
 {
 	int		pid;
-	int		pid2;
-	char	*path;
 
 	pipe(args->pipefd);
 	pid = fork();
 	if (pid == 0)
 	{
-		printf("fils\n");
-		close(args->pipefd[0]);
-        dup2(args->fd_in, 0);
-        dup2(args->pipefd[1], 1);
-        args->cmd = ft_split(argv[0], ' ');
-        if (args->cmd[0][0] == '/')
-            path = ft_strdup(args->cmd[0]);
-        else
-            path = get_path(args, envp);
-        execve(path, args->cmd, envp);	
+		child(args, argv, envp);
 	}
 	if (pid > 0)
 	{
-		pid2 = fork();
-		if (pid2 == 0)
-		{
-			printf("fils du pere\n");
-	        close(args->pipefd[1]);
-    	    dup2(args->pipefd[0], 0);
-	        dup2(args->fd_out, 1);
-   	    	args->cmd = ft_split(argv[1], ' ');
-        	if (args->cmd[0][0] == '/')
-            	path = ft_strdup(args->cmd[0]);
-        	else
-            	path = get_path(args, envp);
-        	execve(path, args->cmd, envp);
-		}
-		printf("pere\n");
+		parent(args, argv, envp);
 	}
-	return (1);
+	return (0);
 }
 
 t_args	*init_args(void)
@@ -65,7 +79,6 @@ t_args	*init_args(void)
 		perror("In init_args");
 		exit(1);
 	}
-	args->cmd = NULL;
 	args->limiter = NULL;
 	return (args);
 }
@@ -77,7 +90,7 @@ int	main(int argc, char **argv, char **envp)
 
 	if (argc < 4 || !envp)
 	{
-		write(1, "Missing argument(s)\n", 20);
+		write(2, "Missing argument(s)\n", 20);
 		return (1);
 	}
 	args = init_args();
@@ -85,7 +98,6 @@ int	main(int argc, char **argv, char **envp)
 	if (!start)
 		exit_error(args, 0, "In init_fd function");
 	if (!pipex(args, &argv[start], envp))
-		exit_error(args, 1, "In pipex function");
-	ft_free(args, 1);
+		exit_error(args, 2, "In pipex function, command not found");
 	return (0);
 }

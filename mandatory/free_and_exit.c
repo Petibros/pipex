@@ -28,16 +28,18 @@ void	free_char_array(char **array)
 	}
 }
 
-int	ft_free(t_args *args, int close_fd)
+void	ft_free(t_args *args, int close_fd)
 {
-	free_char_array(args->cmd);
-	if (close_fd)
+	if (close_fd == 1)
 	{
 		close(args->fd_in);
 		close(args->fd_out);
 	}
-	free(args);
-	return (1);
+	if (close_fd != 2 && args->limiter)
+		free(args->limiter);
+	if (close_fd != 2)
+		free(args);
+	args = NULL;
 }
 
 void	exit_error(t_args *args, int close_fd, char *msg)

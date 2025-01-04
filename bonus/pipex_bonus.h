@@ -10,10 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_H
-# define PIPEX_H
+#ifndef PIPEX_BONUS_H
+# define PIPEX_BONUS_H
 
-# include "libft/libft.h"
+# include "../libft/libft.h"
+# include "../get_next_line/get_next_line.h"
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdlib.h>
@@ -23,7 +24,6 @@
 
 typedef struct s_args
 {
-	char	**cmd;
 	char	*limiter;
 	int		n_cmd;
 	int		fd_in;
@@ -31,10 +31,10 @@ typedef struct s_args
 	int		pipefd[2];
 }	t_args;
 
-char	*get_path(t_args *args, char **envp);
+char	*get_path(char **envp, char **cmd);
 void	free_char_array(char **array);
 void	exit_error(t_args *args, int close_fd, char *msg);
-int		ft_free(t_args *args, int close_fd);
+void	ft_free(t_args *args, int close_fd);
 int		parsing(char **argv, int argc, t_args *args);
 int		init_fd(char **argv, int argc, t_args *args);
 
