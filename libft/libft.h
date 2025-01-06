@@ -6,7 +6,7 @@
 /*   By: sacgarci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 06:56:07 by sacgarci          #+#    #+#             */
-/*   Updated: 2024/10/14 21:39:57 by sacgarci         ###   ########.fr       */
+/*   Updated: 2025/01/06 04:01:26 by sacgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ typedef struct s_list
 	struct s_list	*next;
 }					t_list;
 
+void	free_char_array(char **array);
 int		ft_atoi(const char *nptr);
 void	ft_bzero(void *s, size_t n);
 void	*ft_calloc_libft(size_t nmemb, size_t size);

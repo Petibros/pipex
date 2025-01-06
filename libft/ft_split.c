@@ -6,24 +6,29 @@
 /*   By: sacgarci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 03:10:42 by sacgarci          #+#    #+#             */
-/*   Updated: 2024/12/01 11:34:23 by sacgarci         ###   ########.fr       */
+/*   Updated: 2025/01/06 04:10:59 by sacgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void	ft_free(char **array, int n)
+static int	skip_quotes(const char *s, int *i)
 {
-	if (n > 0)
+	int	n;
+
+	n = 0;
+	if (s[*i] == 39)
 	{
-		n--;
-		while (n >= 0)
+		*i += 1;
+		while (s[*i] && s[*i] != 39)
 		{
-			free(array[n]);
-			n--;
+			*i += 1;
+			n++;
 		}
+		if (!s[*i])
+			return (-1);
 	}
-	free(array);
+	return (n);
 }
 
 static void	ft_strncpy(char *dest, char const *src, int n)
@@ -33,6 +38,8 @@ static void	ft_strncpy(char *dest, char const *src, int n)
 	i = 0;
 	while (src[i] && i < n)
 	{
+		if (src[i + 1] == 39)
+			--n;
 		dest[i] = src[i];
 		i++;
 	}
@@ -50,6 +57,7 @@ static int	fill_array(char const *s, char c, char **array, int count)
 	i = 0;
 	while (j < count)
 	{
+		start += skip_quotes(s, &i);
 		if (s[i] == c && s[i - 1] == c)
 			start = -1;
 		else if (s[i] == c || s[i] == '\0')
@@ -57,9 +65,8 @@ static int	fill_array(char const *s, char c, char **array, int count)
 			array[j] = malloc((start + 1) * sizeof(char));
 			if (!array[j])
 				return (j);
-			ft_strncpy(array[j], &s[i - start], start);
+			ft_strncpy(array[j++], &s[i - start], start);
 			start = -1;
-			j++;
 		}
 		i++;
 		start++;
@@ -77,7 +84,9 @@ static int	numstring(char const *s, char c)
 	i = 0;
 	while (s[i])
 	{
-		if (s[i] == c && s[i + 1] != c)
+		if (skip_quotes(s, &i) == -1)
+			return (-1);
+		else if (s[i] == c && s[i + 1] != c)
 			count++;
 		else if (s[i + 1] == '\0')
 			count++;
@@ -98,13 +107,18 @@ char	**ft_split(char const *s, char c)
 	while (s[i] == c && c != '\0')
 		i++;
 	count = numstring(&s[i], c);
+	if (count == -1)
+	{
+		write(2, "Uneven quotes\n", 14);
+		return (NULL);
+	}
 	array = malloc((count + 1) * sizeof(char *));
 	if (!array)
 		return (NULL);
 	count = fill_array(&s[i], c, array, count);
 	if (count >= 0 && !array[count])
 	{
-		ft_free(array, count);
+		free_char_array(array);
 		return (NULL);
 	}
 	return (array);

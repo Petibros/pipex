@@ -6,34 +6,24 @@
 /*   By: sacgarci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 12:48:03 by sacgarci          #+#    #+#             */
-/*   Updated: 2025/01/05 00:00:02 by sacgarci         ###   ########.fr       */
+/*   Updated: 2025/01/06 00:54:17 by sacgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	free_char_array(char **array)
-{
-	int	i;
-
-	i = 0;
-	if (array)
-	{
-		while (array[i])
-		{
-			free(array[i]);
-			i++;
-		}
-		free(array);
-	}
-}
-
 void	ft_free(t_args *args, int close_fd)
 {
-	if (close_fd == 1)
+	if (close_fd >= 1)
 	{
-		close(args->fd_in);
-		close(args->fd_out);
+		if (args->fd_in != -1)
+			close(args->fd_in);
+		if (args->fd_out != -1)
+			close(args->fd_out);
+		if (close_fd == 1)
+			close(args->pipefd[0]);
+		if (close_fd == 2)
+			close(args->pipefd[1]);
 	}
 	if (args)
 		free(args);

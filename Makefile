@@ -1,9 +1,22 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: sacgarci <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/01/06 00:51:36 by sacgarci          #+#    #+#              #
+#    Updated: 2025/01/06 04:01:10 by sacgarci         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 NAME = pipex
 
 C_MANDA = mandatory/free_and_exit.c mandatory/parsing.c mandatory/pipex.c
 
 C_LIBFT = libft/ft_split.c libft/ft_strjoin.c libft/ft_strdup.c \
-            libft/ft_strlen.c libft/ft_strncmp.c libft/ft_strchr.c
+            libft/ft_strlen.c libft/ft_strncmp.c libft/ft_strchr.c \
+			libft/free_char_array.c
 
 C_BONUS = bonus/free_and_exit_bonus.c bonus/parsing_bonus.c bonus/pipex_bonus.c \
 			get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
