@@ -6,33 +6,58 @@
 /*   By: sacgarci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 06:49:50 by sacgarci          #+#    #+#             */
-/*   Updated: 2025/01/06 04:41:24 by sacgarci         ###   ########.fr       */
+/*   Updated: 2025/01/07 01:36:04 by sacgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-static void	here_doc(t_args *args)
+static void	pipex(t_args *args, char **argv, char **envp)
+{
+	int	pid;
+	int	i;
+
+	i = 0;
+	while (i < args->n_cmd)
+	{
+		if (i != 0 && i % 2 == 0)
+			ft_close(args->pipefd_1);
+		if (i % 2 == 0)
+			pipe(args->pipefd_1);
+		if (i != 1 && i % 2 == 1)
+			ft_close(args->pipefd_2);
+		if (i % 2 == 1)
+			pipe(args->pipefd_2);
+		pid = fork();
+		if (pid == 0)
+		{
+			proc_even(args, argv, envp, i);
+			find_proc(args, argv, envp, i);
+		}
+		++i;
+	}
+	ft_close(args->pipefd_1);
+	ft_close(args->pipefd_2);
+}
+
+void	here_doc(t_args *args)
 {
 	char	*line;
 
 	pipe(args->pipedoc);
+	write(1, "heredoc> ", 9);
 	line = get_next_line(0);
-	while (ft_strncmp(args->limiter, line, ft_strlen(line) - 1))
+	while (ft_strlen(line) - 1 != ft_strlen(args->limiter)
+		|| ft_strncmp(args->limiter, line, ft_strlen(line) - 1))
 	{
 		write(args->pipedoc[1], line, ft_strlen(line));
 		free(line);
+		write(1, "heredoc> ", 9);
 		line = get_next_line(0);
 	}
 	args->fd_in = args->pipedoc[0];
 	close(args->pipedoc[1]);
 	free(line);
-}
-
-static int	pipex(t_args *args, char **argv, char **envp)
-{
-	int		pid;
-
 }
 
 static t_args	*init_args(void)
@@ -57,7 +82,8 @@ int	main(int argc, char **argv, char **envp)
 	int		final_status;
 	int		wpid;
 
-	if (argc < 5 || !envp)
+	if (argc < 5 || ((ft_strncmp(argv[1], "here_doc", ft_strlen(argv[1])) == 0)
+			&& argc < 6) || !envp)
 	{
 		write(2, "Missing argument(s)\n", 20);
 		return (1);
@@ -76,5 +102,5 @@ int	main(int argc, char **argv, char **envp)
 		wpid = waitpid(-1, &args->wait_status, 0);
 	}
 	ft_free(args, 1);
-	exit(WEXITSTATUS(final_status));	
+	exit(WEXITSTATUS(final_status));
 }
