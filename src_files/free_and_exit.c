@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_and_exit_bonus.c                              :+:      :+:    :+:   */
+/*   free_and_exit.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sacgarci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/30 12:48:03 by sacgarci          #+#    #+#             */
-/*   Updated: 2025/01/06 21:57:54 by sacgarci         ###   ########.fr       */
+/*   Updated: 2025/01/07 16:02:14 by sacgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex_bonus.h"
+#include "pipex.h"
 
 void	ft_close(int fds[2])
 {
@@ -18,7 +18,7 @@ void	ft_close(int fds[2])
 	close(fds[1]);
 }
 
-void	ft_free(t_args *args, int close_fd)
+void	close_fds(t_args *args, int close_fd)
 {
 	if (close_fd >= 1 && args->fd_in != -1)
 		close(args->fd_in);
@@ -40,6 +40,11 @@ void	ft_free(t_args *args, int close_fd)
 	}
 	if (close_fd == 1)
 		close(args->pipefd_1[1]);
+}
+
+void	ft_free(t_args *args, int close_fd)
+{
+	close_fds(args, close_fd);
 	if (args)
 		free(args);
 	args = NULL;

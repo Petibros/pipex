@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_bonus.h                                      :+:      :+:    :+:   */
+/*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sacgarci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 06:56:01 by sacgarci          #+#    #+#             */
-/*   Updated: 2025/01/07 01:04:31 by sacgarci         ###   ########.fr       */
+/*   Updated: 2025/01/07 16:02:28 by sacgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PIPEX_BONUS_H
-# define PIPEX_BONUS_H
+#ifndef PIPEX_H
+# define PIPEX_H
 
 # include "../libft/libft.h"
 # include "../get_next_line/get_next_line.h"
@@ -36,6 +36,7 @@ typedef struct s_args
 	int		start;
 }	t_args;
 
+void	close_fds(t_args *args, int close_fd);
 void	find_proc(t_args *args, char **argv, char **envp, int n);
 void	proc_even(t_args *args, char **argv, char **envp, int n);
 void	here_doc(t_args *args);

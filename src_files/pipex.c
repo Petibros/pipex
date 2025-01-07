@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex_bonus.c                                      :+:      :+:    :+:   */
+/*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sacgarci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 06:49:50 by sacgarci          #+#    #+#             */
-/*   Updated: 2025/01/07 01:36:04 by sacgarci         ###   ########.fr       */
+/*   Updated: 2025/01/07 15:58:52 by sacgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "pipex_bonus.h"
+#include "pipex.h"
 
 static void	pipex(t_args *args, char **argv, char **envp)
 {
@@ -46,14 +46,14 @@ void	here_doc(t_args *args)
 
 	pipe(args->pipedoc);
 	write(1, "heredoc> ", 9);
-	line = get_next_line(0);
+	line = get_next_line(0, args->limiter);
 	while (ft_strlen(line) - 1 != ft_strlen(args->limiter)
 		|| ft_strncmp(args->limiter, line, ft_strlen(line) - 1))
 	{
 		write(args->pipedoc[1], line, ft_strlen(line));
 		free(line);
 		write(1, "heredoc> ", 9);
-		line = get_next_line(0);
+		line = get_next_line(0, args->limiter);
 	}
 	args->fd_in = args->pipedoc[0];
 	close(args->pipedoc[1]);

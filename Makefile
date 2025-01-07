@@ -6,7 +6,7 @@
 #    By: sacgarci <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/06 00:51:36 by sacgarci          #+#    #+#              #
-#    Updated: 2025/01/07 01:19:05 by sacgarci         ###   ########.fr        #
+#    Updated: 2025/01/07 15:55:55 by sacgarci         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ C_LIBFT = libft/ft_split.c libft/ft_strjoin.c libft/ft_strdup.c \
             libft/ft_strlen.c libft/ft_strncmp.c libft/ft_strchr.c \
 			libft/free_char_array.c
 
-C_FILES = src_files/free_and_exit_bonus.c src_files/parsing_bonus.c src_files/pipex_bonus.c \
+C_FILES = src_files/free_and_exit.c src_files/parsing.c src_files/pipex.c \
 			get_next_line/get_next_line.c get_next_line/get_next_line_utils.c \
 			src_files/child_proc.c src_files/find_proc.c
 

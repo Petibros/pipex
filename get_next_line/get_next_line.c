@@ -6,12 +6,12 @@
 /*   By: sacgarci <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/31 01:06:25 by sacgarci          #+#    #+#             */
-/*   Updated: 2025/01/04 17:09:33 by sacgarci         ###   ########.fr       */
+/*   Updated: 2025/01/07 15:41:22 by sacgarci         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h>
+#include "../libft/libft.h"
 
 static int	join_and_free(char **rest, char *buffer)
 {
@@ -94,7 +94,7 @@ static char	*initialize(char *buffer, int fd)
 	return (buffer);
 }
 
-char	*get_next_line(int fd)
+char	*get_next_line(int fd, char *limiter)
 {
 	static char	*buffer;
 	char		**rest;
@@ -112,6 +112,9 @@ char	*get_next_line(int fd)
 		line = get_line(*rest, buffer);
 	free(*rest);
 	free(rest);
+	if (ft_strnlen(line, '\n') == ft_strnlen(limiter, 0)
+		&& ft_strncmp(limiter, line, ft_strnlen(line, '\n')) == 0)
+		free(buffer);
 	if (line)
 		return (line);
 	free(buffer);
